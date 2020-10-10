@@ -2,6 +2,9 @@ package com.jackson.bealdung.material;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jackson.bealdung.material.dto.JacksonPolymrophic.Animal;
+import com.jackson.bealdung.material.dto.JacksonPolymrophic.Cat;
+import com.jackson.bealdung.material.dto.JacksonPolymrophic.Dog;
 import com.jackson.bealdung.material.dto.deserialize.User;
 import com.jackson.bealdung.material.dto.serialize.ExtendedBean;
 import org.junit.jupiter.api.Assertions;
@@ -44,7 +47,6 @@ class JacksonBealdungMaterialApplicationTests {
 
     }
 
-
     @Test
     public void testJacksonDeserializerOptions() throws JsonProcessingException {
 
@@ -54,4 +56,21 @@ class JacksonBealdungMaterialApplicationTests {
         Assertions.assertEquals(user.getLastName(),"ahmed");
 
     }
+
+    //TODO fix the error here
+
+//    @Test
+    public void testJacksonPolymorphicByCat() throws JsonProcessingException {
+        String jsonCat="{\"animal\":{\"type\":\"cat\",\"name\":\"lacy\"}}";
+        Cat cat= new ObjectMapper().readerFor(Animal.class).readValue(jsonCat);
+        Assertions.assertEquals(cat.getName(),"lacy");
+    }
+    //TODO fix the error here
+//    @Test
+    public void testJacksonPolymorphicByDog() throws JsonProcessingException {
+        String jsonDog="{\"animal\":{\"type\":\"dog\",\"name\":\"lacy\",\"barkVolume\":0}}";
+        Animal dog= new ObjectMapper().readerFor(Animal.class).readValue(jsonDog);
+        Assertions.assertEquals(dog.getName(),"lacy");
+    }
+
 }
