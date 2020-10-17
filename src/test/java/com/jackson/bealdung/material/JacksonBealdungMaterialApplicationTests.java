@@ -2,14 +2,16 @@ package com.jackson.bealdung.material;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.ReferenceType;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.jackson.bealdung.material.dto.JacksonPolymrophic.Animal;
 import com.jackson.bealdung.material.dto.JacksonPolymrophic.Cat;
 import com.jackson.bealdung.material.dto.JacksonPolymrophic.Dog;
 import com.jackson.bealdung.material.dto.deserialize.User;
 import com.jackson.bealdung.material.dto.objectMapperex.Car;
+import com.jackson.bealdung.material.dto.objectMapperex.CarIgnoreUnkown;
 import com.jackson.bealdung.material.dto.serialize.ExtendedBean;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -119,4 +121,28 @@ class JacksonBealdungMaterialApplicationTests {
         Assertions.assertEquals(carMap.get("color"),"black");
     }
 
+    @Test
+    public void testCarIgnoreUnkownByConfigurer() throws JsonProcessingException {
+        String jsonCarByConfigurerObjectMapper="{\"color\":\"black\",\"type\":\"Mercedes\",\"gas\":false}";
+        CarIgnoreUnkown carByConfigurer= new ObjectMapper()
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false)
+                .readerFor(CarIgnoreUnkown.class)
+                .readValue(jsonCarByConfigurerObjectMapper);
+
+        Assertions.assertNotNull(carByConfigurer);
+        Assertions.assertEquals(carByConfigurer.getColor(),"black");
+        Assertions.assertEquals(carByConfigurer.getType(),"Mercedes");
+        ///////////////////////////////////////////////////////////////////////
+        String jsonCarByAnnotations="{\"color\":\"white\",\"type\":\"BMW\",\"gas\":true}";
+        CarIgnoreUnkown carByAnnotations=new ObjectMapper().readerFor(CarIgnoreUnkown.class).readValue(jsonCarByAnnotations) ;
+        Assertions.assertNotNull(carByAnnotations);
+        Assertions.assertEquals(carByAnnotations.getType(),"BMW");
+        Assertions.assertEquals(carByAnnotations.getColor(),"white");
+    }
+
+    @Test
+    public void testCarExceptionWithUnkownProperties(){
+        String jsonCar="{\"color\":\"white\",\"type\":\"BMW\",\"gas\":true,\"exception\":\"UKNOWNElement\"}";
+        Assertions.assertThrows(UnrecognizedPropertyException.class,()-> new ObjectMapper().readerFor(Car.class).readValue(jsonCar));
+    }
 }
