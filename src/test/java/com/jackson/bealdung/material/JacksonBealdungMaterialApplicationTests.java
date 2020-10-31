@@ -145,4 +145,13 @@ class JacksonBealdungMaterialApplicationTests {
         String jsonCar="{\"color\":\"white\",\"type\":\"BMW\",\"gas\":true,\"exception\":\"UKNOWNElement\"}";
         Assertions.assertThrows(UnrecognizedPropertyException.class,()-> new ObjectMapper().readerFor(Car.class).readValue(jsonCar));
     }
+
+    @Test
+    public void testSampleMapSerializer() throws JsonProcessingException {
+        Map<String,String>map= new HashMap<>();
+        map.put("key","value");
+        String result=new ObjectMapper().writeValueAsString(map);
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(result,"{\"key\":\"value\"}");
+    }
 }
