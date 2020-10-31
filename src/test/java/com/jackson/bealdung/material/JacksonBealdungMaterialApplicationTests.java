@@ -13,6 +13,7 @@ import com.jackson.bealdung.material.dto.deserialize.User;
 import com.jackson.bealdung.material.dto.objectMapperex.Car;
 import com.jackson.bealdung.material.dto.objectMapperex.CarIgnoreUnkown;
 import com.jackson.bealdung.material.dto.serialize.ExtendedBean;
+import com.jackson.bealdung.material.dto.serialize.MyPairs;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -153,5 +154,15 @@ class JacksonBealdungMaterialApplicationTests {
         String result=new ObjectMapper().writeValueAsString(map);
         Assertions.assertNotNull(result);
         Assertions.assertEquals(result,"{\"key\":\"value\"}");
+    }
+
+    // used to test Map<Object,String> like Map<MyPairs,String>
+    @Test
+    public void testMapWithObjectKeyAndStringValue() throws JsonProcessingException {
+        Map<MyPairs,String>objectKeyMap=new HashMap<>();
+        objectKeyMap.put(new MyPairs("Fathy","Ahmed"),"code author");
+        String result=new ObjectMapper().writeValueAsString(objectKeyMap);
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(result,"{\"Fathy and Ahmed\":\"code author\"}");
     }
 }
