@@ -22,7 +22,7 @@ import java.util.List;
  */
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-class JacksonBealdungMaterialUnmarshallingCollectionsTest {
+class UnmarshallingCollectionsTest {
 
     ObjectMapper objectMapper;
 

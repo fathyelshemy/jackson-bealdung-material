@@ -18,7 +18,7 @@ import java.util.TimeZone;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
- class JacksonBealdungMaterialDateTests {
+ class DateCustomSerializerTests {
 
     // default jackson handler
     @Test
