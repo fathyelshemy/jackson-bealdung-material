@@ -15,10 +15,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
 /*
 *  used to test logic Json View for Bealdung
 * @url: https://www.baeldung.com/jackson-json-view-annotation#use-multiple-json-views
-* */
+*/
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
  class JacksonBealdungMaterialJsonViewsTests {

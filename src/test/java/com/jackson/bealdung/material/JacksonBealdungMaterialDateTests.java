@@ -18,11 +18,11 @@ import java.util.TimeZone;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-public class JacksonBealdungMaterialDateTests {
+ class JacksonBealdungMaterialDateTests {
 
     // default jackson handler
     @Test
-    public void defaultJacksonBehaviorInDate() throws ParseException, JsonProcessingException {
+     void defaultJacksonBehaviorInDate() throws ParseException, JsonProcessingException {
         SimpleDateFormat sdf= new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date eventDate=sdf.parse("1970-01-01 01:00:00");
